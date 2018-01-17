@@ -1,18 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CarEngine : MonoBehaviour {
 
     public Transform path;
-    public float maxSteerAngle = 45f;
 
     private List<Transform> nodes;
     private int currentNode = 0;
 
-
     public WheelCollider FRWheel;
     public WheelCollider FLWheel;
+
+    public WheelCollider BRWheel;
+    public WheelCollider BLWheel;
+
+    public bool isBraking = false;
+    public float force;
+    public float maxBreakTorque = 1000f;
 
 	// Use this for initialization
 	void Start () {
@@ -28,23 +34,39 @@ public class CarEngine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        ApplySteer();
-        Drive();
-        CheckWaypointDistance();
+        //CheckWaypointDistance();
 	}
 
-    void ApplySteer()
+    void OnMouseDown()
     {
-        Vector3 relativeVector = transform.InverseTransformPoint(nodes[currentNode].position);
-        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
-        FLWheel.steerAngle = newSteer;
-        FRWheel.steerAngle = newSteer;
+        if (FLWheel.brakeTorque == 0)
+        {
+            Brake();
+        }
+        else
+        {
+            Drive();
+        }
+    }
+    
+
+    public void Drive()
+    {
+
+        BRWheel.brakeTorque = 0;
+        BLWheel.brakeTorque = 0;
+
+        FLWheel.motorTorque = force * GetComponent<Rigidbody>().mass;
+        FRWheel.motorTorque = force * GetComponent<Rigidbody>().mass;
     }
 
-    void Drive()
+    private void Brake()
     {
-        FLWheel.motorTorque = 2000f;
-        FRWheel.motorTorque = 2000f;
+        FLWheel.motorTorque = 0;
+        FRWheel.motorTorque = 0;
+
+        BRWheel.brakeTorque = force * GetComponent<Rigidbody>().mass;
+        BLWheel.brakeTorque = force * GetComponent<Rigidbody>().mass;
     }
 
     void CheckWaypointDistance()

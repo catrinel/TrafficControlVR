@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 72ebf6748ad85b64eb7d6a0f80921422
+timeCreated: 1516201140
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - carPrefab: {fileID: 1372924097567930, guid: f66073f32f9b1454da3c1528981fc8be,
+      type: 2}
+  - path1: {instanceID: 0}
+  - path2: {instanceID: 0}
+  - path3: {instanceID: 0}
+  - path4: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
